@@ -29,6 +29,6 @@ public class User extends BaseEntity {
 	@OneToOne
 	private Cart cart;
 
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	private List<Board> boards;
 }

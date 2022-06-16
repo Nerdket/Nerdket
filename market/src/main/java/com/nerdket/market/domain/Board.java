@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
@@ -26,6 +27,7 @@ public class Board extends BaseEntity {
 	private Long id;
 	
 	@ManyToOne
+	@JoinColumn(name = "user_id")
 	private User user;
 
 }
