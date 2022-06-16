@@ -5,21 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import lombok.Getter;
-
 @Entity
-@Getter
-public class User extends BaseEntity {
+public class Cart extends BaseEntity{
 
 	@Id
 	@GeneratedValue
-	@Column(name = "user_id")
+	@Column(name = "cart_id")
 	private Long id;
-
-	@Column(name = "user_email")
-	private String email;
-
-	@Column(name = "user_password")
-	private String password;
-
 }
