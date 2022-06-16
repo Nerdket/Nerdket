@@ -17,6 +17,6 @@ public class Cart extends BaseEntity{
 	@Column(name = "cart_id")
 	private Long id;
 
-	@OneToMany(mappedBy = "cart")
+	@OneToMany
 	private List<Item> items = new ArrayList<>();
 }
