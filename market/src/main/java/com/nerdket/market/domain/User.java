@@ -1,9 +1,12 @@
 package com.nerdket.market.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -25,4 +28,7 @@ public class User extends BaseEntity {
 
 	@OneToOne
 	private Cart cart;
+
+	@OneToMany
+	private List<Board> boards;
 }
