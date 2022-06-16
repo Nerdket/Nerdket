@@ -31,4 +31,7 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user")
 	private List<Board> boards;
+
+	@OneToMany(mappedBy = "user")
+	private List<Review> reviews;
 }
