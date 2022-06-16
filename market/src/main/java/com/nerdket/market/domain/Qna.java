@@ -1,14 +1,11 @@
 package com.nerdket.market.domain;
 
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @Entity
 @DiscriminatorValue("QnA")
-public class QnA extends Board {
+public class Qna extends Board {
 
 }
