@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -27,6 +28,7 @@ public class User extends BaseEntity {
 	private String password;
 
 	@OneToOne
+	@JoinColumn(name = "cart_id")
 	private Cart cart;
 
 	@OneToMany(mappedBy = "user")
