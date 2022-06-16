@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 
@@ -22,4 +23,6 @@ public class User extends BaseEntity {
 	@Column(name = "user_password")
 	private String password;
 
+	@OneToOne
+	private Cart cart;
 }
