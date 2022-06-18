@@ -1,6 +1,6 @@
 package com.nerdket.market.exception;
 
-public class DuplicatedUserNameException extends RuntimeException {
+public class DuplicatedUserNameException extends BadRequestException {
 	public DuplicatedUserNameException() {
 		super("[ERROR] 중복된 회원이름이 존재합니다.");
 	}

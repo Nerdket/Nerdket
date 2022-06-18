@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Embeddable;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.nerdket.market.exception.NoPatternMatchException;
 
 import lombok.AccessLevel;
@@ -19,9 +21,9 @@ public class Password {
 
 	private String password;
 
-	public static Password of(String password){
+	public static Password of(String password, PasswordEncoder passwordEncoder){
 		validatePattern(password);
-		return new Password(password);
+		return new Password(passwordEncoder.encode(password));
 	}
 
 	private Password(String password){

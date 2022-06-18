@@ -11,7 +11,9 @@ import com.nerdket.market.service.user.UserService;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("user")
 @RequiredArgsConstructor
@@ -44,7 +46,7 @@ public class UserController {
 			userDto.setEmail(email);
 			userDto.setUsername(username);
 			userDto.setPassword(password);
-			return new UserDto();
+			return userDto;
 		}
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.nerdket.market.controller.response.FailResponse;
+import com.nerdket.market.exception.BadRequestException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,5 +20,11 @@ public class ControllerExceptionAdvice {
 	public FailResponse exceptionHandler(Exception e) {
 		log.error("[exceptionHandler] ex", e);
 		return new FailResponse("[ERROR] 서버 오류");
+	}
+
+	@ExceptionHandler
+	public FailResponse badRequestExceptionHandler(BadRequestException e) {
+		log.error("[{}] ex", e.getClass(), e);
+		return new FailResponse(e.getMessage());
 	}
 }

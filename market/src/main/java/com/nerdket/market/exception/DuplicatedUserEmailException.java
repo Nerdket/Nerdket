@@ -1,6 +1,6 @@
 package com.nerdket.market.exception;
 
-public class DuplicatedUserEmailException extends RuntimeException {
+public class DuplicatedUserEmailException extends BadRequestException {
 	public DuplicatedUserEmailException() {
 		super("[ERROR] 가입된 이메일이 존재합니다.");
 	}

@@ -1,6 +1,6 @@
 package com.nerdket.market.exception;
 
-public class NoPatternMatchException extends RuntimeException {
+public class NoPatternMatchException extends BadRequestException {
 	public NoPatternMatchException() {
 		super("[ERROR] 패턴이 일치하지 않습니다.");
 	}

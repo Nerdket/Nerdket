@@ -1,6 +1,6 @@
 package com.nerdket.market.exception;
 
-public class NoSuchUserException extends RuntimeException {
+public class NoSuchUserException extends BadRequestException {
 	public NoSuchUserException() {
 		super("[ERROR] 해당 유저가 존재하지 않습니다.");
 	}
