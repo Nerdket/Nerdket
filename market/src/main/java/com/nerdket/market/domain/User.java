@@ -24,6 +24,9 @@ public class User extends BaseEntity {
 	@Column(name = "user_email")
 	private String email;
 
+	@Column(name = "user_name")
+	private String username;
+
 	@Column(name = "user_password")
 	private String password;
 
@@ -36,4 +39,7 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user")
 	private List<Review> reviews;
+
+	@Column(name = "user_role")
+	private Role role;
 }

@@ -1,4 +1,4 @@
-package com.nerdket.market.controller;
+package com.nerdket.market.controller.user;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
