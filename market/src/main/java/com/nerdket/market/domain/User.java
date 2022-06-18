@@ -3,12 +3,15 @@ package com.nerdket.market.domain;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.nerdket.market.domain.vo.Password;
 
 import lombok.Getter;
 
@@ -27,8 +30,9 @@ public class User extends BaseEntity {
 	@Column(name = "user_name")
 	private String username;
 
+	@Embedded
 	@Column(name = "user_password")
-	private String password;
+	private Password password;
 
 	@OneToOne
 	@JoinColumn(name = "cart_id")
@@ -42,4 +46,8 @@ public class User extends BaseEntity {
 
 	@Column(name = "user_role")
 	private Role role;
+
+	public String getPassword(){
+		return password.toString();
+	}
 }

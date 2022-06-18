@@ -37,7 +37,7 @@ public class SecurityConfig {
 			.httpBasic().disable()
 			.apply(new MyCustomDsl()) // 커스텀 필터 등록
 			.and()
-			.authorizeRequests(authroize -> authroize.antMatchers("/api/v1/user/**")
+			.authorizeRequests(auth -> auth.antMatchers("/api/v1/user/**")
 				.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/api/v1/manager/**")
 				.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
@@ -49,10 +49,9 @@ public class SecurityConfig {
 
 	public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
 		@Override
-		public void configure(HttpSecurity http) throws Exception {
+		public void configure(HttpSecurity http) {
 			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-			http
-				.addFilter(corsConfig.corsFilter())
+			http.addFilter(corsConfig.corsFilter())
 				.addFilter(new JwtAuthenticationFilter(authenticationManager))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
 		}
