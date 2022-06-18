@@ -13,10 +13,14 @@ import javax.persistence.OneToOne;
 
 import com.nerdket.market.domain.vo.Password;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
 	@Id
@@ -46,6 +50,13 @@ public class User extends BaseEntity {
 
 	@Column(name = "user_role")
 	private Role role;
+
+	@Builder
+	public User(String email, String username, Password password){
+		this.email = email;
+		this.username = username;
+		this.password = password;
+	}
 
 	public String getPassword(){
 		return password.toString();
