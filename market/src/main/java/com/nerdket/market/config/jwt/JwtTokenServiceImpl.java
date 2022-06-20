@@ -24,10 +24,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
 
-	private final UserRepository userRepository;
-
 	@Override
-	public String getJwtToken(String username) {
+	public String createJwtToken(String username) {
 		return TOKEN_PREFIX + JWT.create()
 			.withSubject(username)
 			.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
@@ -35,25 +33,13 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	}
 
 	@Override
-	public Optional<User> getUser(HttpServletRequest request) {
-		String token = getToken(request);
-		Optional<String> username = findUsernameByToken(token);
-
-		return Optional.ofNullable(findUserByUsername(username));
+	public Optional<String> parseTokenFromRequest(HttpServletRequest request) {
+		String token = request.getHeader(HEADER_STRING).replace(TOKEN_PREFIX, "");
+		return parseToken(token);
 	}
 
-	private User findUserByUsername(Optional<String> username) {
-		if (username.isEmpty()) {
-			return null;
-		}
-		return userRepository.findByUsername(username.get()).orElseThrow(NoSuchUserException::new);
-	}
 
-	private String getToken(HttpServletRequest request) {
-		return request.getHeader(HEADER_STRING).replace(TOKEN_PREFIX, "");
-	}
-
-	private Optional<String> findUsernameByToken(String token) {
+	private Optional<String> parseToken(String token) {
 		return Optional.ofNullable(JWT.require(Algorithm.HMAC512(JwtProperties.SECRET_KEY))
 			.build()
 			.verify(token)
