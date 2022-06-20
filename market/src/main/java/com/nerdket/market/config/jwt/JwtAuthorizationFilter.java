@@ -22,14 +22,19 @@ import com.nerdket.market.config.auth.PrincipalDetails;
 import com.nerdket.market.domain.User;
 import com.nerdket.market.exception.badrequest.NoSuchUserException;
 import com.nerdket.market.repository.UserRepository;
+import com.nerdket.market.service.user.UserService;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private final JwtTokenService jwtTokenService;
+	private final UserService userService;
 
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtTokenService jwtTokenService) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
+								  JwtTokenService jwtTokenService,
+								  UserService userService) {
 		super(authenticationManager);
 		this.jwtTokenService = jwtTokenService;
+		this.userService = userService;
 	}
 
 	@Override
@@ -42,13 +47,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			return;
 		}
 
-		jwtTokenService.getUser(request).ifPresent(this::saveAuthentication);
+		Optional<String> username = jwtTokenService.parseTokenFromRequest(request);
+		username.ifPresent(this::saveAuthentication);
 
 		chain.doFilter(request, response);
 	}
 
-	private void saveAuthentication(User user) {
-
+	private void saveAuthentication(String username) {
+		User user = userService.findOne(username);
 		PrincipalDetails principalDetails = new PrincipalDetails(user);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(
 			principalDetails,

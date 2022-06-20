@@ -37,7 +37,7 @@ public class UserController {
 			.password(request.getPassword())
 			.build();
 		String jwtToken = userService.login(userDto);
-d		response.addHeader(HEADER_STRING, jwtToken);
+		response.addHeader(HEADER_STRING, jwtToken);
 		return new SuccessResponse(new LoginResponse(userDto.getUsername()));
 	}
 
