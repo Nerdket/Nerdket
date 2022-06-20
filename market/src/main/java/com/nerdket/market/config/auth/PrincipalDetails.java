@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.nerdket.market.domain.User;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class PrincipalDetails implements UserDetails {
 
 	private final User user;

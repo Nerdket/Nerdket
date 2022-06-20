@@ -1,7 +1,6 @@
 package com.nerdket.market.config.jwt;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Optional;
 
 import javax.servlet.FilterChain;
@@ -14,8 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nerdket.market.config.auth.PrincipalDetails;
 import com.nerdket.market.service.user.UserDto;
@@ -28,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private final AuthenticationManager authenticationManager;
+	private final JwtTokenService jwtTokenService;
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
@@ -56,17 +54,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 											Authentication authResult) {
-		PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
-		String JwtToken = makeJwtToken(principalDetails);
-		response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + JwtToken);
-	}
-
-	private String makeJwtToken(PrincipalDetails principalDetails) {
-		return JWT.create()
-			.withSubject(principalDetails.getUsername())
-			.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-			.withClaim("id", principalDetails.getUser().getId())
-			.withClaim("username", principalDetails.getUser().getUsername())
-			.sign(Algorithm.HMAC512(JwtProperties.SECRET_KEY));
+		PrincipalDetails principalDetails = (PrincipalDetails)authResult.getPrincipal();
+		String token = jwtTokenService.getJwtToken(principalDetails.getUsername());
+		response.addHeader(JwtProperties.HEADER_STRING, token);
 	}
 }

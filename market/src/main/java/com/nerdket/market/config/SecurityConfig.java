@@ -16,50 +16,44 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.nerdket.market.config.jwt.JwtAuthenticationFilter;
 import com.nerdket.market.config.jwt.JwtAuthorizationFilter;
+import com.nerdket.market.config.jwt.JwtTokenService;
 import com.nerdket.market.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
+// @Configuration
+// @EnableWebSecurity
+// @RequiredArgsConstructor
 public class SecurityConfig {
 
-	private final CorsConfig corsConfig;
-	private final UserRepository userRepository;
+	// private final CorsConfig corsConfig;
+	// private final JwtTokenService jwtTokenService;
+	//
+	// @Bean
+	// public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	// 	return http
+	// 		.csrf().disable()
+	// 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	// 		.and()
+	// 		.formLogin().disable()
+	// 		.httpBasic().disable()
+	// 		.apply(new MyCustomDsl()) // 커스텀 필터 등록
+	// 		.and()
+	// 		.authorizeRequests(
+	// 			auth -> auth.antMatchers("/user/myPage")
+	// 			.access("hasRole('NORMAL') or hasRole('MANAGER')")
+	// 			.anyRequest().permitAll())
+	// 		.build();
+	// }
+	//
+	// public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+	// 	@Override
+	// 	public void configure(HttpSecurity http) {
+	// 		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+	// 		http.addFilter(corsConfig.corsFilter())
+	// 			.addFilter(new JwtAuthenticationFilter(authenticationManager, jwtTokenService))
+	// 			.addFilter(new JwtAuthorizationFilter(authenticationManager, jwtTokenService));
+	// 	}
+	// }
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http
-			.csrf().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-			.formLogin().disable()
-			.httpBasic().disable()
-			.apply(new MyCustomDsl()) // 커스텀 필터 등록
-			.and()
-			.authorizeRequests(auth -> auth.antMatchers("/api/v1/user/**")
-				.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-				.antMatchers("/api/v1/manager/**")
-				.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-				.antMatchers("/api/v1/admin/**")
-				.access("hasRole('ROLE_ADMIN')")
-				.anyRequest().permitAll())
-			.build();
-	}
-
-	public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
-		@Override
-		public void configure(HttpSecurity http) {
-			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-			http.addFilter(corsConfig.corsFilter())
-				.addFilter(new JwtAuthenticationFilter(authenticationManager))
-				.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
-		}
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.nerdket.market.controller.response.FailResponse;
-import com.nerdket.market.exception.BadRequestException;
+import com.nerdket.market.exception.badrequest.BadRequestException;
 
 import lombok.extern.slf4j.Slf4j;
 

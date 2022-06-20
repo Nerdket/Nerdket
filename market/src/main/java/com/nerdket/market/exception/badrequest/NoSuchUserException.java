@@ -1,4 +1,4 @@
-package com.nerdket.market.exception;
+package com.nerdket.market.exception.badrequest;
 
 public class NoSuchUserException extends BadRequestException {
 	public NoSuchUserException() {

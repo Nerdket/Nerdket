@@ -1,4 +1,4 @@
-package com.nerdket.market.exception;
+package com.nerdket.market.exception.badrequest;
 
 public class DuplicatedUserNameException extends BadRequestException {
 	public DuplicatedUserNameException() {

@@ -2,11 +2,10 @@ package com.nerdket.market.config.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nerdket.market.domain.User;
-import com.nerdket.market.exception.NoSuchUserException;
+import com.nerdket.market.exception.badrequest.NoSuchUserException;
 import com.nerdket.market.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;

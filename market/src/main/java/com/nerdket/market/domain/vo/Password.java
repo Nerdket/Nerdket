@@ -2,7 +2,6 @@ package com.nerdket.market.domain.vo;
 
 import static com.nerdket.market.domain.vo.PatternRegex.*;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +9,7 @@ import javax.persistence.Embeddable;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.nerdket.market.exception.NoPatternMatchException;
+import com.nerdket.market.exception.badrequest.NoPatternMatchException;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

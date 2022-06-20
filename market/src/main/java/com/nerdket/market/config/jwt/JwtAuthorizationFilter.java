@@ -1,5 +1,7 @@
 package com.nerdket.market.config.jwt;
 
+import static com.nerdket.market.config.jwt.JwtProperties.*;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -18,16 +20,16 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.nerdket.market.config.auth.PrincipalDetails;
 import com.nerdket.market.domain.User;
-import com.nerdket.market.exception.NoSuchUserException;
+import com.nerdket.market.exception.badrequest.NoSuchUserException;
 import com.nerdket.market.repository.UserRepository;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-	private final UserRepository userRepository;
+	private final JwtTokenService jwtTokenService;
 
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtTokenService jwtTokenService) {
 		super(authenticationManager);
-		this.userRepository = userRepository;
+		this.jwtTokenService = jwtTokenService;
 	}
 
 	@Override
@@ -35,19 +37,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		IOException,
 		ServletException {
 		String header = request.getHeader(JwtProperties.HEADER_STRING);
-		if (header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
+		if (header == null || !header.startsWith(TOKEN_PREFIX)) {
 			chain.doFilter(request, response);
 			return;
 		}
 
-		String token = getToken(request);
-		getUsernameByToken(token).ifPresent(this::saveAuthentication);
+		jwtTokenService.getUser(request).ifPresent(this::saveAuthentication);
 
 		chain.doFilter(request, response);
 	}
 
-	private void saveAuthentication(String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(NoSuchUserException::new);
+	private void saveAuthentication(User user) {
 
 		PrincipalDetails principalDetails = new PrincipalDetails(user);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -56,18 +56,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			principalDetails.getAuthorities());
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-	}
-
-	private String getToken(HttpServletRequest request) {
-		return request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
-	}
-
-	private Optional<String> getUsernameByToken(String token) {
-		return Optional.ofNullable(JWT.require(Algorithm.HMAC512(JwtProperties.SECRET_KEY))
-			.build()
-			.verify(token)
-			.getClaim("username")
-			.asString());
 	}
 
 }
