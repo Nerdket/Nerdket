@@ -4,19 +4,15 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.Authentication;
-
-import com.nerdket.market.domain.User;
-
 public interface JwtTokenService {
 
 	/**
 	 * 토큰 생성
 	 */
-	String getJwtToken(String username);
+	String createJwtToken(String username);
 
 	/**
 	 * 토큰으로 유저 찾기
 	 */
-	Optional<User> getUser(HttpServletRequest request);
+	Optional<String> parseTokenFromRequest(HttpServletRequest request);
 }
