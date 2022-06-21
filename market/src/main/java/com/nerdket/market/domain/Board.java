@@ -5,10 +5,6 @@ import static javax.persistence.InheritanceType.*;
 
 import javax.persistence.*;
 
-import lombok.Getter;
-
-import java.util.List;
-
 @Entity
 @Inheritance(strategy = JOINED)
 @DiscriminatorColumn(name = "board_type")
@@ -31,7 +27,5 @@ public class Board extends BaseEntity {
 
 	@Column(name = "board_content")
 	private String content;
-
-
 
 }
