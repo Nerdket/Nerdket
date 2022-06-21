@@ -7,19 +7,15 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.nerdket.market.config.auth.PrincipalDetails;
-import com.nerdket.market.domain.User;
-import com.nerdket.market.exception.badrequest.NoSuchUserException;
-import com.nerdket.market.repository.UserRepository;
-import com.nerdket.market.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
@@ -27,9 +23,9 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	@Override
 	public String createJwtToken(String username) {
 		return TOKEN_PREFIX + JWT.create()
-			.withSubject(username)
 			.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-			.sign(Algorithm.HMAC512(JwtProperties.SECRET_KEY));
+			.withClaim(TOKEN_CLAIM, username)
+			.sign(Algorithm.HMAC512(SECRET_KEY));
 	}
 
 	@Override
@@ -40,10 +36,10 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
 
 	private Optional<String> parseToken(String token) {
-		return Optional.ofNullable(JWT.require(Algorithm.HMAC512(JwtProperties.SECRET_KEY))
+		return Optional.ofNullable(JWT.require(Algorithm.HMAC512(SECRET_KEY))
 			.build()
 			.verify(token)
-			.getClaim("username")
+			.getClaim(TOKEN_CLAIM)
 			.asString());
 	}
 
