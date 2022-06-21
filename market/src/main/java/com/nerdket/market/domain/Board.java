@@ -17,15 +17,15 @@ public class Board extends BaseEntity {
 	
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	protected User user;
 
 	@Column(name = "board_hit")
 	private Long hit;
 
 	@Column(name = "board_title")
-	private String title;
+	protected String title;
 
 	@Column(name = "board_content")
-	private String content;
+	protected String content;
 
 }
