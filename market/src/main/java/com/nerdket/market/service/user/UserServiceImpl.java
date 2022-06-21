@@ -9,7 +9,7 @@ import com.nerdket.market.domain.User;
 import com.nerdket.market.domain.vo.Password;
 import com.nerdket.market.exception.badrequest.DuplicatedUserEmailException;
 import com.nerdket.market.exception.badrequest.DuplicatedUserNameException;
-import com.nerdket.market.exception.badrequest.NoSuchUserException;
+import com.nerdket.market.exception.badrequest.UserNotFoundException;
 import com.nerdket.market.exception.badrequest.WrongPasswordException;
 import com.nerdket.market.repository.UserRepository;
 
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findOne(String username) {
-		return userRepository.findByUsername(username).orElseThrow(NoSuchUserException::new);
+		return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 	}
 
 	@Override

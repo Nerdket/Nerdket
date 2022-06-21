@@ -16,14 +16,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.nerdket.market.config.auth.PrincipalDetails;
 import com.nerdket.market.domain.User;
-import com.nerdket.market.exception.badrequest.NoSuchUserException;
-import com.nerdket.market.repository.UserRepository;
 import com.nerdket.market.service.user.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private final JwtTokenService jwtTokenService;
@@ -49,7 +48,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 		Optional<String> username = jwtTokenService.parseTokenFromRequest(request);
 		username.ifPresent(this::saveAuthentication);
-
 		chain.doFilter(request, response);
 	}
 
