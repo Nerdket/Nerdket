@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class NoticeDto {
+public class NoticeRegisterDto {
     private String title;
     private String content;
     private String username;
