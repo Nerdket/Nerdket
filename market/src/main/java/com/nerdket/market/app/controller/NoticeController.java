@@ -1,6 +1,7 @@
 package com.nerdket.market.app.controller;
 
 import com.nerdket.market.app.controller.response.SuccessResponse;
+import com.nerdket.market.app.service.board.NoticeDetailDto;
 import com.nerdket.market.app.service.board.NoticeListDto;
 import com.nerdket.market.app.service.board.NoticeRegisterDto;
 import com.nerdket.market.app.service.board.NoticeService;
@@ -43,7 +44,8 @@ public class NoticeController {
 
     @GetMapping("{boardId}")
     public SuccessResponse getNotice(@PathVariable long boardId) {
-        return null;
+        NoticeDetailDto notice = noticeService.getNotice(boardId);
+        return new SuccessResponse(new NoticeGetResponse(notice));
     }
 
     @PostMapping("{boardId}")
@@ -75,6 +77,12 @@ public class NoticeController {
     @AllArgsConstructor
     static class NoticeListResponse {
         private Page<NoticeListDto> noticeList;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class NoticeGetResponse {
+        private NoticeDetailDto noticeDetailDto;
     }
 
 

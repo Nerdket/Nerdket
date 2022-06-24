@@ -8,4 +8,5 @@ public interface NoticeService {
     void register(NoticeRegisterDto noticeDto);
 
     Page<Notice> listNotice(Pageable pageable);
+    NoticeDetailDto getNotice(long boardId);
 }

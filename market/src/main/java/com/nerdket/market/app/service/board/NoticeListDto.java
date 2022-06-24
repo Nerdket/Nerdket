@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class NoticeListDto {
     private long id;
     private String title;
-    private String content;
     private String userName;
     private long hit;
     private LocalDateTime createdDate;
@@ -17,7 +16,6 @@ public class NoticeListDto {
     public NoticeListDto(Notice notice) {
         id = notice.getId();
         title = notice.getTitle();
-        content = notice.getContent();
         userName = notice.getUser().getUsername();
         hit = notice.getHit();
         createdDate = notice.getCreatedDate();
