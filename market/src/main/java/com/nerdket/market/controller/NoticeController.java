@@ -24,8 +24,8 @@ public class NoticeController {
     @PostMapping()
     public SuccessResponse registerNotice(@RequestBody NoticeRegisterRequest request) {
         System.out.println(request);
-        LocalDateTime createdDate = noticeService.register(request.getNoticeDto());
-        return new SuccessResponse(new NoticeRegisterResponse(createdDate));
+        noticeService.register(request.getNoticeDto());
+        return new SuccessResponse();
     }
 
     @Data

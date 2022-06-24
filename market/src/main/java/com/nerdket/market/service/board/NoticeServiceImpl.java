@@ -20,10 +20,9 @@ public class NoticeServiceImpl implements NoticeService {
 	private final UserRepository userRepository;
 
 	@Override
-	public LocalDateTime register(NoticeDto noticeDto) {
+	public void register(NoticeDto noticeDto) {
 		User user = userRepository.getReferenceById(noticeDto.getUserId());
 		Notice notice = Notice.builder().title(noticeDto.getTitle()).content(noticeDto.getContent()).user(user).build();
 		noticeRepository.save(notice);
-		return notice.getCreatedDate();
 	}
 }
