@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.InheritanceType.JOINED;
 
 @Entity
@@ -18,7 +18,7 @@ public class Board extends BaseEntity {
 	@Column(name = "board_id")
 	protected Long id;
 	
-	@ManyToOne(fetch = EAGER)
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "user_id")
 	protected User user;
 
