@@ -1,35 +1,34 @@
 package com.nerdket.market.domain;
 
-import static javax.persistence.FetchType.*;
-import static javax.persistence.InheritanceType.*;
-
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-
 import lombok.Getter;
+
+import javax.persistence.*;
+
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.InheritanceType.JOINED;
 
 @Entity
 @Inheritance(strategy = JOINED)
+@Getter
 @DiscriminatorColumn(name = "board_type")
 public class Board extends BaseEntity {
 
 	@Id
 	@GeneratedValue
 	@Column(name = "board_id")
-	private Long id;
+	protected Long id;
 	
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	protected User user;
+
+	@Column(name = "board_hit")
+	protected Long hit;
+
+	@Column(name = "board_title")
+	protected String title;
+
+	@Column(name = "board_content")
+	protected String content;
 
 }

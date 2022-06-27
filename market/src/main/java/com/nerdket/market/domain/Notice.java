@@ -1,12 +1,21 @@
 package com.nerdket.market.domain;
 
-import javax.persistence.Column;
+import lombok.*;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @Entity
 @DiscriminatorValue("notice")
+@Getter
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Notice extends Board {
+
+    @Builder
+    public Notice(String title, String content, User user, Long hit) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
+        this.hit = hit;
+    }
 }

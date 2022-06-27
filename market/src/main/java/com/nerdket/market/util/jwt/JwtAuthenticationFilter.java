@@ -1,27 +1,23 @@
 package com.nerdket.market.util.jwt;
 
-import java.io.IOException;
-import java.util.Optional;
-
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nerdket.market.app.service.user.UserDto;
+import com.nerdket.market.app.service.user.UserService;
+import com.nerdket.market.domain.User;
+import com.nerdket.market.util.auth.PrincipalDetails;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nerdket.market.util.auth.PrincipalDetails;
-import com.nerdket.market.domain.User;
-import com.nerdket.market.app.service.user.UserDto;
-import com.nerdket.market.app.service.user.UserService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -32,7 +28,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
-		AuthenticationException {
+			AuthenticationException {
 		UserDto userDto = getUserDto(request).orElseThrow(IllegalStateException::new);
 		return makeAuthentication(userDto);
 	}
@@ -50,7 +46,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private Authentication makeAuthentication(UserDto userDto) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-			userDto.getEmail(), userDto.getPassword());
+				userDto.getEmail(), userDto.getPassword());
 		return authenticationManager.authenticate(authenticationToken);
 	}
 
