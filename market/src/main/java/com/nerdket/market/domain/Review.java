@@ -1,16 +1,8 @@
 package com.nerdket.market.domain;
 
-import static javax.persistence.FetchType.*;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 public class Review extends BaseEntity {
@@ -24,8 +16,12 @@ public class Review extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToOne
-	@JoinColumn(name = "item_id")
-	private Item item;
+
+	@Column(name="review_content")
+	private String content;
+
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "book_isbn")
+	private Book book;
 
 }

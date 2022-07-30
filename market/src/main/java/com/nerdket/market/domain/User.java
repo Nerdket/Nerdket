@@ -1,26 +1,15 @@
 package com.nerdket.market.domain;
 
-import static com.nerdket.market.domain.Role.*;
-
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
 import com.nerdket.market.domain.vo.Password;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
+
+import static com.nerdket.market.domain.Role.NORMAL;
 
 @Entity
 @Getter
@@ -39,21 +28,22 @@ public class User extends BaseEntity {
 	private String username;
 
 	@Embedded
-	@Column(name = "user_password")
+	@Column(name = "password")
 	private Password password;
-
-	@OneToOne
-	@JoinColumn(name = "cart_id")
-	private Cart cart;
-
-	@OneToMany(mappedBy = "user")
-	private List<Board> boards;
 
 	@OneToMany(mappedBy = "user")
 	private List<Review> reviews;
 
 	@OneToMany(mappedBy = "user")
-	private List<Comment> comments;
+	private List<Bookmark> bookmarks;
+
+	@OneToMany(mappedBy = "follower")
+	private List<Follow> followers;
+
+	@OneToMany(mappedBy = "following")
+	private List<Follow> followings;
+
+
 
 	@Column(name = "user_role")
 	@Enumerated(EnumType.STRING)
@@ -70,4 +60,6 @@ public class User extends BaseEntity {
 	public String getPassword(){
 		return password.toString();
 	}
+
+
 }

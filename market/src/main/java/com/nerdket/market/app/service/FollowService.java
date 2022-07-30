@@ -1,4 +1,4 @@
 package com.nerdket.market.app.service;
 
-public interface ItemService {
+public interface FollowService {
 }
