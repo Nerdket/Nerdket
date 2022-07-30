@@ -61,17 +61,5 @@ public class User extends BaseEntity {
 		return password.toString();
 	}
 
-// ----
-
-	@OneToOne
-	@JoinColumn(name = "cart_id")
-	private Cart cart;
-
-	@OneToMany(mappedBy = "user")
-	private List<Board> boards;
-
-
-	@OneToMany(mappedBy = "user")
-	private List<Comment> comments;
 
 }
